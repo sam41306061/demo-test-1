@@ -95,11 +95,10 @@ project-root/
 │ ├── dataProcessing/
 │ │ └── etl.ts
 │ ├── frontend/
-│ │ ├── components/
-│ │ │ └── CustomerProfile.tsx
-│ │ ├── pages/
-│ │ │ └── index.tsx
-│ │ └── App.tsx
+│ │ ├── views/
+│ │ │ └── index.ejs
+│ │ └── scripts/
+│ │ └── customerList.js
 │ ├── db/
 │ │ └── schema.ts
 │ └── utils/
