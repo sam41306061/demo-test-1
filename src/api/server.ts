@@ -1,18 +1,43 @@
-import expresss from "npm:express@4.17.3";
-import customersRouter from "./routes/customers.ts";
-import process from "node:process";
+import { Hono } from "jsr:@hono/hono";
 
-// set your value
-const app = expresss();
+const app = new Hono();
 
-//server index page
-app.get("*", (req, res) => {
-  res.sendFile(process.cwd() + "/frontend/views/index.html");
+app.post("/api/customer", async (c) => {
+  try {
+    const body = await c.req.json();
+
+    // Basic validation
+    if (!body.name || !body.email) {
+      return c.text("Please provide name and email", 400);
+    }
+
+    // Process the customer data
+    const processedCustomer = {
+      ...body,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Store the customer (in this case, we're just logging)
+    console.log("New customer:", JSON.stringify(processedCustomer));
+
+    return c.json({
+      message: "Customer created successfully",
+      customer: processedCustomer,
+    });
+  } catch (error) {
+    return c.text(`Error processing customer: ${error.message}`, 500);
+  }
 });
 
-app.use("/api/customers", customersRouter);
+app.get("/", async (c) => {
+  return c.html(`
+    <h1>Customer API</h1>
+    <form method="POST" action="/api/customer">
+      <input type="text" name="name" placeholder="Name">
+      <input type="email" name="email" placeholder="Email">
+      <button type="submit">Create Customer</button>
+    </form>
+  `);
+});
 
-const port = Number(Deno.env.get("PORT")) || 8080;
-await app.listen(port);
-
-console.log(`Server is running on port: ${port}`);
+export default app;
