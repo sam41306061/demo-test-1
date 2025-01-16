@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-TODO" crossorigin="anonymous"></script>
     <title>Customer API</title>
 </head>
 
@@ -18,23 +19,6 @@
     <div id="customers">
         <!-- Table goes here -->
     </div>
-
-    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
-    <script>
-        document.getElementById('customerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const response = await fetch('/api/customer', {
-                method: 'POST',
-                body: formData,
-            });
-            if (response.ok) {
-                const result = await response.json();
-                console.log('Customer created:', result);
-                // You can update the DOM here if needed
-            }
-        });
-    </script>
 </body>
 
 </html>
