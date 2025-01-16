@@ -13,7 +13,7 @@
     <form id="customerForm">
         <input type="text" id="name" placeholder="Name">
         <input type="email" id="email" placeholder="Email">
-        <button type="submit">Create Customer</button>
+        <button type="submit" hx-post="/api/customers" hx-target="#customers">Create Customer</button>
     </form>
 
     <div id="customers">

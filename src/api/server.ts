@@ -1,6 +1,11 @@
 import { Hono } from "jsr:@hono/hono";
+import {
+  dirname,
+  fromFileUrl,
+} from "https://deno.land/std@0.224.0/path/mod.ts";
 
 const app = new Hono();
+const __dirname = dirname(fromFileUrl(import.meta.url));
 
 app.post("/api/customer", async (c) => {
   try {
@@ -29,15 +34,9 @@ app.post("/api/customer", async (c) => {
   }
 });
 
-app.get("/", async (c) => {
-  return c.html(`
-    <h1>Customer API</h1>
-    <form method="POST" action="/api/customer">
-      <input type="text" name="name" placeholder="Name">
-      <input type="email" name="email" placeholder="Email">
-      <button type="submit">Create Customer</button>
-    </form>
-  `);
+app.get("/", (c) => {
+  return c.html(
+    Deno.readTextFileSync(`${__dirname}/../frontend/views/index.html`)
+  );
 });
-
 export default app;
